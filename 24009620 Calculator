@@ -1,35 +1,160 @@
 import tkinter as tk
-from doctest import master
-from importlib.resources import contents
-from tkinter.constants import RIGHT
-from tkinter.constants import LEFT
-from tkinter.ttk import Label
-from tkinter import ttk
-from ctypes import windll
+import math
+from asyncio import current_task
+from tkinter import *
 
 root = tk.Tk()
 
+#START OF CODE
+
 root.title("24009620's Calculator DEMO")
 
-windll.shcore.SetProcessDpiAwareness(2)
+#TITLE
 
 Name = tk.Label(text="2400620's Calculator")
-Name.pack()
 
-ttk.Label(root, text='classic label').pack()
+#SUBTITLE I GUESS ¯\_(ツ)_/¯
 
-output = ttk.Label(root, text=input, )
-output.config(fg="green")
+#DEFINE OF OPERATIONS
 
-Zero = ttk.Button(master, text='0',)
-Zero.pack(padx=20, pady=10, ipadx=50,ipady=70, side=LEFT)
+def Entered_num(number):
+    current = result.get()
+    result.delete(0, END)
+    result.insert(0, str(current) + str(number))
 
-One = ttk.Button(master, text='1',)
-One.pack(padx=20, pady=10, ipadx=50,ipady=70, side=LEFT)
+def clear():
+    result.delete(0, END)
 
-Two = ttk.Button(master, text='2',)
-Two.pack(padx=20, pady=10, ipadx=50,ipady=70, side=LEFT)
+def adding():
+    global number, operation
+    number = int(result.get())
+    operation = "add"
+    result.delete(0, END)
 
-root.geometry('650x1000+20+20')
+def minus():
+    global number, operation
+    number = int(result.get())
+    operation = "minus"
+    result.delete(0, END)
+
+def divide():
+    global number, operation
+    number = int(result.get())
+    operation = "divide"
+    result.delete(0, END)
+
+def times():
+    global number, operation
+    number = int(result.get())
+    operation = "times"
+    result.delete(0, END)
+
+def pi():
+    result.insert(END, str("3.14"))
+
+def squareroot():
+    try:
+     num = float(result.get())
+     result.delete(0, END)
+     result.insert(0, math.sqrt(num))
+    except:
+     result.delete(0, END)
+
+def negative():
+    if result.startswith("-"):
+     result.insert(0, "-" + result)
+
+
+def equals():
+    number, operation
+    number2 = int(result.get())
+    result.delete(0, END)
+
+    if operation == "add":
+     result.insert(0, number + number2)
+    elif operation == "minus":
+     result.insert(0, number - number2)
+    elif operation == "divide":
+     result.insert(0, number / number2)
+    elif operation == "times":
+     result.insert(0, number * number2)
+    else:
+        result.insert("ERROR")
+
+#Numbers
+
+One = Button(root,text= "1",width=10,height=5,padx=40,pady=40,bg="deep sky blue", command=lambda: Entered_num(1))
+One.grid(row=1, column=0, columnspan = 1, padx= 5, pady= 5)
+
+Two = Button(root,text="2",width=10,height=5,padx=40,pady=40, bg="deep sky blue", command=lambda: Entered_num(2))
+Two.grid(row=1, column=1, columnspan = 1, padx= 5, pady= 5)
+
+Three = Button(root,text="3",width=10,height=5,padx=40,pady=40, bg="deep sky blue", command=lambda: Entered_num(3))
+Three.grid(row=1, column=2,columnspan = 1, padx= 5, pady= 5)
+
+Four = Button(root,text="4",width=10,height=5,padx=40,pady=40, bg="deep sky blue", command=lambda: Entered_num(4))
+Four.grid(row=2, column=0,columnspan = 1, padx= 5, pady= 5)
+
+Five = Button(root,text="5",width=10,height=5,padx=40,pady=40, bg="deep sky blue", command=lambda: Entered_num(5))
+Five.grid(row=2, column=1,columnspan = 1, padx= 5, pady= 5)
+
+Six = Button(root,text="6",width=10,height=5,padx=40,pady=40, bg="deep sky blue", command=lambda: Entered_num(6))
+Six.grid(row=2, column=2,columnspan = 1, padx= 5, pady= 5)
+
+Seven = Button(root,text="7",width=10,height=5,padx=40,pady=40, bg="deep sky blue", command=lambda: Entered_num(7))
+Seven.grid(row=3, column=0,columnspan = 1, padx= 5, pady= 5)
+
+Eight = Button(root,text="8",width=10,height=5,padx=40,pady=40, bg="deep sky blue", command=lambda: Entered_num(8))
+Eight.grid(row=3, column=1,columnspan = 1, padx= 5, pady= 5)
+
+Nine = Button(root,text="9",width=10,height=5,padx=40,pady=40, bg="deep sky blue", command=lambda: Entered_num(9))
+Nine.grid(row=3, column=2,columnspan = 1, padx= 5, pady= 5)
+
+Zero = Button(root,text="0",width=10,height=5,padx=40,pady=40, bg="deep sky blue", command=lambda: Entered_num(0))
+Zero.grid(row=4, column=1,columnspan = 1, padx= 5, pady= 5)
+
+#Calculation tools
+
+Minus = Button(root,text="-",width=10,height=5,padx=40,pady=40, bg="sky blue", command=lambda: minus())
+Minus.grid(row=4, column=0,columnspan = 1, padx= 5, pady= 5)
+
+Divide = Button(root,text="/",width=10,height=5,padx=40,pady=40, bg="sky blue", command=lambda: divide())
+Divide.grid(row=5, column=0,columnspan = 1, padx= 5, pady= 5)
+
+Plus = Button(root,text="+",width=10,height=5,padx=40,pady=40, bg="sky blue", command=lambda: adding())
+Plus.grid(row=4, column=2,columnspan = 1, padx= 5, pady= 5)
+
+Times = Button(root,text="X",width=10,height=5,padx=40,pady=40, bg="sky blue", command=lambda: times())
+Times.grid(row=5, column=2,columnspan = 1, padx= 5, pady= 5)
+
+Equals = Button(root,text="=",width=10,height=5,padx=40,pady=40, bg="olivedrab1", command=lambda: equals())
+Equals.grid(row=5, column=1,columnspan = 1, padx= 5, pady= 5)
+
+C = Button(root,text="C",width=10,height=5,padx=40,pady=40, bg="red4", command=lambda: clear())
+C.grid(row=1, column=3,columnspan = 1, padx= 5, pady= 5)
+
+BracketsR = Button(root,text=")",width=10,height=5,padx=40,pady=40, bg="sky blue",command=lambda: Entered_num(")"))
+BracketsR.grid(row=2, column=3,columnspan = 1, padx= 5, pady= 5)
+
+BracketsL = Button(root,text="(",width=10,height=5,padx=40,pady=40, bg="sky blue",command=lambda: Entered_num("("))
+BracketsL.grid(row=3, column=3,columnspan = 1, padx= 5, pady= 5)
+
+Pi = Button(root,text="π",width=10,height=5,padx=40,pady=40, bg="sky blue", command=lambda:pi())
+Pi.grid(row=4, column=3,columnspan = 1, padx= 5, pady= 5)
+
+Root = Button(root,text="√ ",width=10,height=5,padx=40,pady=40, bg="sky blue")
+Root.grid(row=5, column=3,columnspan = 1, padx= 5, pady= 5)
+
+#CALCULATOR WINDOW / PERSONALISATION
+root.geometry('675x1200+20+20')
+
+root.resizable(False,False)
+
+root.configure(bg="RoyalBlue4")
+
+result = entry = Entry(root, width=10, font=("Georgia", 80))
+result.grid(row=0, column=0, columnspan=5, padx=5, pady=5 )
+
+#END OF CODE
 
 root.mainloop()
